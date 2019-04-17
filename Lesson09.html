@@ -1,0 +1,25 @@
+Урок 9
+
+урок 8
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <!-- Тег meta для указания кодировки -->
+  <meta charset="utf-8">
+</head>
+<body>
+<script>
+var deposit = parseInt (prompt ('Введите сумму депозита:'));
+var interestRate = parseInt (prompt ('Введите процентную ставку:'));
+var period = parseInt (prompt ('Введите количество лет вклада:'));
+
+for (var n = 1; n <= period; n = n + 1) {
+	deposit = deposit + deposit * interestRate / 100;
+	alert ('По окончанию ' + n + ' года сумма депозита равна ' + deposit.toFixed(2));
+}
+alert('За ' + period + ' лет сумма депозита составила ' + deposit.toFixed(2));
+
+</script>
+</body>
+</html>

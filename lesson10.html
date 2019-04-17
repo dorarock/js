@@ -1,0 +1,39 @@
+lesson10
+Урок 9
+
+урок 8
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <!-- Тег meta для указания кодировки -->
+  <meta charset="utf-8">
+</head>
+<body>
+<script>
+var i;
+var arr = [0,1,-1,-1,0,0,0,1,1,1,-1,1,1,1,1];
+
+// for(i = 0; i < 1000000; i++) {
+// 	arr.push(Math.round(Math.random() * 2 - 1));
+// }
+
+var longestRedSequence = 0;
+var redSequence = 0;
+
+for(i = 0; i < arr.length; i++) {
+	if (arr[i] == 1) {
+		redSequence++;
+		if (redSequence > longestRedSequence) {
+			longestRedSequence = redSequence;
+		}
+	} else {
+		redSequence = 0;
+	}
+}
+
+alert(longestRedSequence);
+
+</script>
+</body>
+</html>
