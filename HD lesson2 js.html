@@ -1,0 +1,67 @@
+Lesson 2 js
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		 <meta charset="utf-8">
+	</title>
+</head>
+<body>
+<script>
+	"use strict";
+	// задание 3
+	let a = parseInt (prompt ('Введите первое число: '));
+	let b = parseInt (prompt ('Введите второе число: '));
+	 if (a >= 0 && b >= 0) {
+		alert( a + b );
+	}else if (a < 0 && b < 0) {
+		alert( a * b );
+	}else if (a * b < 0) {
+		alert( a + b);
+	}
+
+	// задание 4
+	function getSum (a, b) {
+		return a + b;
+	}
+
+	function getDif (a, b) {
+		return a - b;
+	}
+
+	function getDiv (a, b) {
+		return a / b;
+	}
+
+	function getMul (a, b) {
+		return a * b;
+	}
+
+	alert(getSum(8, 9));
+	alert(getDif(4, 3));
+	alert(getDiv(8, 4));
+	alert(getMul(2,2));
+
+	//задание 5
+
+	function mathOperation(arg1, arg2, operation) {
+		switch (operation) {
+			case '+':
+				return getSum(arg1, arg2);
+			case '-':
+				return getDif(arg1, arg2);
+			case '/':
+				return getDiv(arg1, arg2);
+			case '*':
+				return getMul(arg1, arg2);
+		}
+	}
+
+	alert(mathOperation(8,9,'+'));
+	alert(mathOperation(8,9,'-'));
+	alert(mathOperation(8,9,'/').toFixed(2));
+	alert(mathOperation(8,9,'*'));
+
+</script>
+</body>
+</html>
