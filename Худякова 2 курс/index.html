@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	//КЛАССЫ
+	// фотоаппарат //класс
+	// 	NIKON es6 //объект
+
+	class Human {
+		constructor (name, age, height, salary) {
+			this.name = name
+			this.age = age
+			this.height = height
+			this.salary = salary
+			this.earned = 0
+		}
+		goWork () {
+			let hrs = this._ask ()
+			this._count (hrs)
+			this.earned <= 0 ? console.log (`${this.name} плохо работал и заработал ${this.earned}`) : console.log (`${this.name} заработал ${this.earned}`)
+		}
+		_ask () {
+			return +prompt ('enter working time')
+		}
+		_count (hrs) {
+			this.earned = hrs * this.salary
+		}
+	}
+
+	let vasya = new Human ('Vasya', 30, 175, 100)
+	let vova = new Human ('Vladimir', 25, 187, 200)
+</script>
+</body>
+</html>
