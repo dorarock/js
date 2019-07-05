@@ -1,64 +1,64 @@
-//заглушки (имитация базы данных)
+//ФЭЙК ЭПИ
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+
 const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
 
-const items = ['Notebook', 'Display', 'Keyboard', 'Mouse', 'Phones', 'Router', 'USB-camera', 'Gamepad'];
-const prices = [1000, 200, 20, 10, 25, 30, 18, 24];
-const ids = [1, 2, 3, 4, 5, 6, 7, 8];
+function makeGETRequest(url, callback) {
+    let xhr;
 
-function fetchData() {
-    let arr = [];
-    for (let i = 0; i < items.length; i++) {
-        arr.push({
-            title: items[i],
-            price: prices[i],
-            img: image,
-        });
+    if (window.XMLHttpRequest) {
+      xhr = new XMLHttpRequest();
+    } else if (window.ActiveXObject) { 
+      xhr = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    return arr
-}
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        callback(xhr.responseText);
+      }
+    }
+
+    xhr.open('GET', url, true);
+    xhr.send();
+  }
 
 //Глобальные сущности 
 var userCart = [];
 
-
-class ProductList { //СОЗДАТЬ МЕТОД ОПРЕД-ИЙ СУММАРНУЮ СТОИМОСТЬ ВСЕХ ТОВАРОВ - ИДТИ ПО ЗИС ПРОДУТКС, НАХОДИТЬ ЦЕНУ И СКЛАДЫВАТЬ С ПРЕД-Й ЦЕНОЙ
-    constructor() {
-        this.products = []
-        this._init()
+class GoodsList {
+    constructor () {
+        this.goods = []
     }
-    _init() {
-        this.fetchProducts()
-        this.render()
+    
+    fetchGoods (cb) {
+        makeGETRequest(`${API_URL}/catalogData.json`, (goods) => {
+            this.goods = JSON.parse(goods);
+            cb ()
+          })
     }
-    fetchProducts() {
-        this.products = fetchData()
-    }
-    render() {
-        const block = document.querySelector('.products')
-        this.products.forEach(product => {
-            const prod = new Product(product)
-            block.insertAdjacentHTML('beforeend', prod.render())
+    render () {
+        const block = document.querySelector ('.products')
+        this.goods.forEach (product => {
+            const prod = new Product (product)
+            block.insertAdjacentHTML ('beforeend', prod.render ())
         })
     }
-
-    getSum() {
-    	let sum = 0;
-    	this.products.forEach(product => {
-    		sum += product.price
-    	})
-    	console.log(sum);
-    }
-
 }
 
+const list = new GoodsList();
+list.fetchGoods(() => {
+  list.render()
+})
+
 class Product {
-    constructor(product) {
-        this.title = product.title
-        this.price = product.prices
-        this.img = product.img
+    constructor (product) {
+        this.id = product.id_product
+        this.title = product.product_name
+        this.price = product.price
+        this.img = image
     }
-    render() {
+    render () {
         return `<div class="product-item">
                         <img src="${this.img}" alt="Some img">
                         <div class="desc">
@@ -72,96 +72,3 @@ class Product {
                     </div>`
     }
 }
-
-class Cart {
-
-}
-
-let productList = new ProductList();
-productList.getSum();
-
-
-document.querySelector('.btn-cart').addEventListener('click', () => {
-    document.querySelector('.cart-block').classList.toggle('invisible')
-})
-
-document.querySelector('.products').addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('buy-btn')) {
-        addProduct(evt.target);
-    }
-})
-
-document.querySelector('.cart-block').addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('del-btn')) {
-        removeProduct(evt.target);
-    }
-})
-
-
-
-
-// function renderProducts () {
-// 	let arr = [];
-// 	for (item of list) {
-// 		arr.push (item.createTemplate ())
-// 	}
-// 	document.querySelector ('.products').innerHTML = arr.join ();
-// }
-
-// renderProducts ();
-
-
-// //CART
-function addProduct(product) {
-    let productId = +product.dataset['id'];
-    let find = userCart.find(element => element.id === productId)
-    //либо find = userCart [?] (obj) || false
-
-    if (!find) {
-        userCart.push({
-            name: product.dataset['name'],
-            id: productId,
-            img: cartImage,
-            price: +product.dataset['price'],
-            quantity: 1
-        })
-    } else {
-        find.quantity++
-    }
-    renderCart();
-}
-
-function removeProduct(product) {
-    let productId = +product.dataset['id'];
-    let find = userCart.find(element => element.id === productId)
-    //либо find = userCart [?] (obj) || false
-
-    if (find.quantity > 1) {
-        find.quantity--
-    } else {
-        userCart.splice(userCart.indexOf(find), 1);
-        document.querySelector(`.cart-item[data-id="${productId}"]`).remove()
-    }
-    renderCart();
-}
-
-// function renderCart () {
-// 	let allProducts = '';
-// 	for (item of userCart) {
-// 		allProducts += `<div class="cart-item" data-id="${item.id}">
-//                             <div class="product-bio">
-//                                 <img src="${item.img}" alt="Some image">
-//                                 <div class="product-desc">
-//                                     <p class="product-title">${item.name}</p>
-//                                     <p class="product-quantity">Quantity: ${item.quantity}</p>
-//                                     <p class="product-single-price">$${item.price} each</p>
-//                                 </div>
-//                             </div>
-//                             <div class="right-block">
-//                                 <p class="product-price">${item.quantity * item.price}</p>
-//                                 <button class="del-btn" data-id="${item.id}">&times;</button>
-//                             </div>
-//                         </div>`
-// 	}
-// 	document.querySelector ('.cart-block').innerHTML = allProducts;
-// }
