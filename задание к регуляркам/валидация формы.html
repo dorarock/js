@@ -80,30 +80,14 @@
             form.addEventListener('submit', function(evt) {
                 evt.preventDefault();
 
-                form.addEventListener('submit', function(evt) {
-                    evt.preventDefault();
-                    //данные код удаляет сообщение об ошибке, чтобы оно не дублировалось
-                    var errors = form.querySelectorAll('.error')
-                    for (var i = 0; i < errors.length; i++) {
-                        errors[i].remove()
-                    }
-                    //если поля не заполнены - выдаем ошибку
-                    for (var i = 0; i < fields.length; i++) {
-                        if (!fields[i].value) {
-                            fields[i].style.outline = `2px solid red`;
-                            console.log('field is blank', fields[i])
-                            var error = document.createElement('div')
-                            error.className = 'error'
-                            error.style.color = 'red'
-                            error.innerHTML = 'Заполните поле!'
-                            form[i].parentElement.insertBefore(error, fields[i])
-                        }
-                    }
-                });
-
                 var error = document.createElement('div') //сообщение об ошибке
                 error.className = 'error'
                 error.style.color = 'red'
+
+                // var wrongMessage = document.createElement('div') 
+                // wrongMessage.className = 'wrongMessage'
+                // wrongMessage.style.color = 'orange'
+                // wrongMessage.innerHTML = ''
 
                 // данный код удаляет сообщение об ошибке, чтобы оно не дублировалось
                 var errors = form.querySelectorAll('.error')
@@ -126,8 +110,8 @@
                 let resultName = regExpName.test(myname.value);
                 if (resultName != true) {
                     name.style.outline = `2px solid red`;
-                    error.innerHTML = 'Проверь имя!'
-                    myname.parentElement.insertBefore(error, myname);
+                    // wrongMessage.innerHTML = 'Проверь имя!'
+                    // myname.parentElement.insertBefore(wrongMessage, myname);
                 } else {
                     name.style.outline = `2px solid green`;
                 }
@@ -136,8 +120,8 @@
                 let resultSname = regExpSname.test(sname.value);
                 if (resultSname != true) {
                     sname.style.outline = `2px solid red`;
-                    error.innerHTML = 'Проверь имя!'
-                    sname.parentElement.insertBefore(error, sname);
+                    // wrongMessage.innerHTML = 'Фамилия только из букв!'
+                    // sname.parentElement.insertBefore(wrongMessage, sname);
                 } else {
                     sname.style.outline = `2px solid green`;
                 }
@@ -148,8 +132,8 @@
                 if (resultEmail != true) {
                     // console.log('не верно')
                     email.style.outline = `2px solid red`;
-                    error.innerHTML = 'Проверь правильность!'
-                    email.parentElement.insertBefore(error, email)
+                    // wrongMessage.innerHTML = 'Проверь правильность!'
+                    // email.parentElement.insertBefore(wrongMessage, email)
                 } else {
                     email.style.outline = `2px solid green`;
                 }
@@ -157,10 +141,10 @@
                 const regExpTel = new RegExp(/^\+7\(\d{3}\)\d{3}\-\d{4}$/, 'g');
                 let resulTel = regExpTel.test(tel.value);
                 if (resulTel != true) {
-                    console.log('не верно')
+                    // console.log('не верно')
                     tel.style.outline = `2px solid red`;
-                    error.innerHTML = 'Телефон не верный!'
-                    tel.parentElement.insertBefore(error, tel)
+                    // wrongMessage.innerHTML = 'Телефон не верный!'
+                    // tel.parentElement.insertBefore(wrongMessage, tel)
                 } else {
                     tel.style.outline = `2px solid green`;
                 }
