@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <form class='formWithValidation'>
+        <table>
+            <tr>
+                <td>Ваше имя</td>
+                <td>
+                    <input name="from" type="text" class='myname field' placeholder="Даша">
+                </td>
+            </tr>
+            <tr>
+                <td>Ваша Фамилия</td>
+                <td>
+                    <input name="from" type="text" class="sname field" placeholder="Худякова">
+                </td>
+            </tr>
+            <tr>
+                <td>Ваша почта</td>
+                <td>
+                    <input name="email" type="email" class='email field' placeholder="red_fire13@mail.ru">
+                </td>
+            </tr>
+            <tr>
+                <td>Ваш телефон</td>
+                <td>
+                    <input name="tel" type="tel" class='tel field' placeholder="+7(905)266-0000">
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Отправить" class="validateBtn">
+    </form>
+    <script>
+    class FormValidator {
+        constructor() {
+            this.regExpDict = {
+                myname: new RegExp(`^[A-ZА-Я]{1}[a-zа-я]+$`, 'g'),
+                sname: new RegExp(`^[A-ZА-Я]{1}[a-zа-я]+$`, 'g'),
+                email: new RegExp('^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$', 'g'),
+                tel: new RegExp(/^\+7\(\d{3}\)\d{3}\-\d{4}$/, 'g')
+            };
+
+            this.alertMessageDict = {
+                myname: 'Имя содержит только буквы',
+                sname: 'Фамилия содержит только буквы',
+                email: 'Проверьте правильность почты',
+                tel: 'Проверьте правильность телефона'
+            };
+            this.emptyFieldMessage = 'Заполните поле!';
+
+            this.updateFormsAndFields();
+        }
+
+        updateFormsAndFields() {
+            this.form = document.querySelector('.formWithValidation');
+            this.fields = this.form.querySelectorAll('.field');
+            console.log(this.fields)
+            this.cleanAlertMessages();
+
+            this.form.addEventListener('submit', (evt) => {
+                evt.preventDefault();
+                this.validate();
+            });
+        }
+
+        validate() {
+            this.cleanAlertMessages();
+            for (var i = 0; i < this.fields.length; i++) {
+                this.setValidBorder(this.fields[i]);
+                if (this.fields[i].value === '') {
+                    this.showAlertMessage(this.fields[i], this.emptyFieldMessage);
+                    continue;
+                } 
+
+                for (var j = 0; j < this.fields[i].classList.length; j++) {
+                    var currentClass = this.fields[i].classList[j];
+                    var currentRegExp = this.regExpDict[currentClass];
+                    if (currentRegExp === undefined) {
+                        continue;
+                    }
+
+                    var currentAlertMessage = this.alertMessageDict[currentClass];
+                    if (!currentRegExp.test(this.fields[i].value)) {
+                        this.showAlertMessage(this.fields[i], currentAlertMessage);
+                        continue;
+                    }
+
+                }
+            }
+
+        }
+
+        cleanAlertMessages() {
+            var errors = this.form.querySelectorAll('.error')
+            for (var i = 0; i < errors.length; i++) {
+                errors[i].remove();
+            }
+        }
+
+        showAlertMessage(field, message) {
+            var error = document.createElement('div');
+            error.className = 'error';
+            error.style.color = 'red';
+            error.innerHTML = message;
+            field.parentElement.insertBefore(error, field);
+            this.setInvalidBorder(field);
+        }
+
+        setValidBorder(field) {
+            field.style.outline = `2px solid green`;
+        }
+
+        setInvalidBorder(field) {
+            field.style.outline = `2px solid red`;
+        }
+
+        test() {
+            console.log(this.regExpDict.myname);
+            console.log(this.form);
+        }
+
+    }
+
+    let a = new FormValidator();
+    a.test();
+    </script>
+</body>

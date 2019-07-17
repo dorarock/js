@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <form class='formWithValidation'>
+        <table>
+            <tr>
+                <td>Ваше имя</td>
+                <td>
+                    <input name="from" type="text" class='myname field' placeholder="Даша">
+                </td>
+            </tr>
+            <tr>
+                <td>Ваша Фамилия</td>
+                <td>
+                    <input name="from" type="text" class="sname field" placeholder="Худякова">
+                </td>
+            </tr>
+            <tr>
+                <td>Ваша почта</td>
+                <td>
+                    <input name="email" type="email" class='email field' placeholder="red_fire13@mail.ru">
+                </td>
+            </tr>
+            <tr>
+                <td>Ваш телефон</td>
+                <td>
+                    <input name="tel" type="tel" class='tel field' placeholder="+7(905)266-0000">
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Отправить" class="validateBtn">
+    </form>
+    <script>
+    var form = document.querySelector('.formWithValidation'); //находим все элементы формы
+    var validateBtn = form.querySelector('.validateBtn');
+    var myname = form.querySelector('.myname');
+    var sname = form.querySelector('.sname');
+    var email = form.querySelector('.email');
+    var tel = form.querySelector('.tel');
+    var fields = form.querySelectorAll('.field');
+
+    //создаем слушателя, чтобы отслеживать нажатие на "отправить"
+
+    // form.addEventListener('submit', function(evt) {
+    //     evt.preventDefault();
+    //     //данные код удаляет сообщение об ошибке, чтобы оно не дублировалось
+    //     var errors = form.querySelectorAll('.error')
+    //     for (var i = 0; i < errors.length; i++) {
+    //         errors[i].remove()
+    //     }
+    //     //если поля не заполнены - выдаем ошибку
+    //     for (var i = 0; i < fields.length; i++) {
+    //         if (!fields[i].value) {
+    //           fields[i].style.outline = `2px solid red`;
+    //             console.log('field is blank', fields[i])
+    //             var error = document.createElement('div')
+    //             error.className = 'error'
+    //             error.style.color = 'red'
+    //             error.innerHTML = 'Заполните поле!'
+    //             form[i].parentElement.insertBefore(error, fields[i])
+    //         }
+    //     }
+    // });
+
+    class FormValue {
+        // constructor(el) {
+        //     this.name = el.name
+        //     this.sname = el.sname
+        //     this.email = el.email
+        //     this.tel = el.tel
+        // }
+
+        checkVal(name, sname, email, tel) {
+            form.addEventListener('submit', function(evt) {
+                evt.preventDefault();
+
+                var error = document.createElement('div') //сообщение об ошибке
+                error.className = 'error'
+                error.style.color = 'red'
+
+                // var wrongMessage = document.createElement('div') 
+                // wrongMessage.className = 'wrongMessage'
+                // wrongMessage.style.color = 'orange'
+                // wrongMessage.innerHTML = ''
+
+                // данный код удаляет сообщение об ошибке, чтобы оно не дублировалось
+                var errors = form.querySelectorAll('.error')
+                for (var i = 0; i < errors.length; i++) {
+                    errors[i].remove()
+                }
+                //если поля не заполнены - выдаем ошибку
+                for (var i = 0; i < fields.length; i++) {
+                    if (!fields[i].value) {
+                        fields[i].style.outline = `2px solid red`;
+                        console.log('field is blank', fields[i])
+                        var error = document.createElement('div')
+                        error.className = 'error'
+                        error.style.color = 'red'
+                        error.innerHTML = 'Заполните поле!'
+                        form[i].parentElement.insertBefore(error, fields[i])
+                    }
+                }
+                const regExpName = new RegExp(`^[A-ZА-Я]{1}[a-zа-я]+$`, 'g');
+                let resultName = regExpName.test(myname.value);
+                if (resultName != true) {
+                    name.style.outline = `2px solid red`;
+                    // wrongMessage.innerHTML = 'Проверь имя!'
+                    // myname.parentElement.insertBefore(wrongMessage, myname);
+                } else {
+                    name.style.outline = `2px solid green`;
+                }
+
+                const regExpSname = new RegExp(`^[A-ZА-Я]{1}[a-zа-я]+$`, 'g');
+                let resultSname = regExpSname.test(sname.value);
+                if (resultSname != true) {
+                    sname.style.outline = `2px solid red`;
+                    // wrongMessage.innerHTML = 'Фамилия только из букв!'
+                    // sname.parentElement.insertBefore(wrongMessage, sname);
+                } else {
+                    sname.style.outline = `2px solid green`;
+                }
+
+                const regExpMail = new RegExp('^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$', 'g');
+                let resultEmail = regExpMail.test(email.value);
+                console.log(resultEmail); //true
+                if (resultEmail != true) {
+                    // console.log('не верно')
+                    email.style.outline = `2px solid red`;
+                    // wrongMessage.innerHTML = 'Проверь правильность!'
+                    // email.parentElement.insertBefore(wrongMessage, email)
+                } else {
+                    email.style.outline = `2px solid green`;
+                }
+
+                const regExpTel = new RegExp(/^\+7\(\d{3}\)\d{3}\-\d{4}$/, 'g');
+                let resulTel = regExpTel.test(tel.value);
+                if (resulTel != true) {
+                    // console.log('не верно')
+                    tel.style.outline = `2px solid red`;
+                    // wrongMessage.innerHTML = 'Телефон не верный!'
+                    // tel.parentElement.insertBefore(wrongMessage, tel)
+                } else {
+                    tel.style.outline = `2px solid green`;
+                }
+
+            });
+
+        }
+    }
+
+    let d = new FormValue();
+    d.checkVal(myname, sname, email, tel);
+    </script>
+</body>
