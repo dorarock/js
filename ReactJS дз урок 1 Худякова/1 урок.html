@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Худякова домашнее задание 1</title>
+</head>
+
+<body>
+    <script>
+    'use strict';
+    // ЗАДАНИЕ 1
+
+    function loop(times = 0, callback = null) {
+        if (callback == null) {
+            return;
+        }
+        for (let i = 0; i < times; i++) {
+            callback();
+        }
+    }
+
+    loop(4, function callback() { console.log('вызывали?') });
+
+
+    //ЗАДАНИЕ 2
+
+
+    function calculateArea(input,figure) {
+        let area;
+        switch (figure) {
+            case 'квадрат':
+                area = input[0] * input[0];
+                break;
+            case 'круг':
+                area = Math.PI * input[0] * input[0];
+                break;
+            case 'прямоугольник':
+                area = input[0] * input[1];
+                break;
+            case 'треугольник':
+                  let halfPer = (input[0] + input[1] + input[2])/2;
+                  area = Math.sqrt(halfPer * (halfPer - input[0]) * (halfPer - input[1]) * (halfPer - input[2]));
+                  break;
+        } 
+
+        return {area, figure, input};
+    }
+
+      console.log(calculateArea([2,5,6],'треугольник').area.toFixed(2));
+
+
+    //ЗАДАНИЕ 3
+    class Human {
+        constructor(name, age, dateOfBirth) {
+            this.name = name;
+            this.age = age;
+            this.dateOfBirth = dateOfBirth;
+        }
+
+        displayInfo() {
+            console.log(this.name, this.age, this.dateOfBirth);
+        }
+    }
+
+    class Employee extends Human {
+        constructor(name, age, dateOfBirth, salary, department) {
+            super(name, age, dateOfBirth);
+            this.salary = salary;
+            this.department = department;
+        }
+
+        displayInfo() {
+            super.displayInfo();
+            console.log(this.salary, this.department);
+        }
+    }
+
+    class Manager extends Employee {
+        constructor(name, age, dateOfBirth, salary, department, developers) {
+            super(name, age, dateOfBirth, salary, department);
+            this.developers = [];
+            developers.forEach(developer => {
+                this.addDeveloper(developer);
+            });
+        }
+
+
+        displayInfo() {
+            super.displayInfo();
+            console.log(this.developers);
+        }
+
+        deleteDeveloper() {
+
+        }
+
+        addDeveloper(developer) {
+            if (this.developers.indexOf(developer) == -1) {
+                this.developers.push(developer);
+                developer.manager = this;
+            }
+        }
+    }
+
+    class Developer extends Employee {
+        constructor(name, age, dateOfBirth, salary, department, manager) {
+            super(name, age, dateOfBirth, salary, department);
+            this.manager = manager;
+        }
+        displayInfo() {
+            super.displayInfo();
+            console.log('Менеджер: ' + this.manager.name);
+
+        }
+    }
+
+        let dev01 = new Developer('Андрей', 29, '01.03.90', 12, 'developer', null);
+        let dev02 = new Developer('Саша', 39, '01.04.89', 14, 'developer', null);
+        let dev03 = new Developer('Вася', 19, '01.03.00', 17, 'developer', null);
+        let manager = new Manager('Даша', 28, '31.03.91', 13, 'manager', [dev01, dev02, dev03]);
+        // manager.displayInfo();
+        dev03.displayInfo();
+
+
+        //ЗАДАНИЕ 4*
+        const promiseArray = [];
+        const URL = 'https://jsonplaceholder.typicode.com/users/';
+
+        for (let i = 1; i <= 10; i++) {
+            promiseArray.push(fetch(URL + i));
+        }
+
+         Promise.all(promiseArray).then(results => {
+            Promise.all(results.map(res => res.text()))
+            .then (texts => {
+                console.log(texts);
+            })
+        })
+
+        // Promise.all(promiseArray).then(results => {
+        //     results.forEach(result => {
+        //         console.log(result.text());
+        //     })
+        // })
+       
+    </script>
+</body>
+
+</html>
