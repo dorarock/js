@@ -1,0 +1,33 @@
+{
+  "name": "lesson2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack",
+    "start": "webpack-dev-server --open",
+    "watch": "webpack --mode development --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "create-react-class": "^15.6.3",
+    "prop-types": "^15.7.2",
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1",
+    "react-router": "^3.2.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.2"
+  }
+}
